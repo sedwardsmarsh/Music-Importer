@@ -17,13 +17,10 @@ set number_of_songs to count list_of_song_files
 set incrementor to 1 as integer
 repeat with song_file in list_of_song_files
 	
-	-- source: https://stackoverflow.com/questions/1024643/applescript-equivalent-of-continue
-	repeat 1 times
-	
 	-- parse the integer prefix from the filename and song name
 	set split_song_file to splitText(song_file, "-")
 	set song_num to (item 1 of split_song_file) as integer
-	set song_name to item 1 of splitText((item 3 of split_song_file), ".")
+	set song_name to (item 1 of splitText((item 3 of split_song_file), "."))
 	
 	-- update the track count (# songs on track's album) and track number
 	set file_path to (album_directory & item incrementor of list_of_song_files) as string
@@ -31,14 +28,16 @@ repeat with song_file in list_of_song_files
 	tell application "Music"
 		
 		-- check that song isn't already added
-		set track_exists to (search library for song_name)
-		if track_exists is not equal to "" then exit repeat
+		set track_exists to (search library playlist 1 for song_name)
+		if track_exists is not {} then
+			the track_exists
+		end if
 		
 		set track_ref to add file_alias
 		--delay 1.5
-		set track count of track_ref to number_of_songs
+		-- set track count of track_ref to number_of_songs
 		--delay 1.5
-		set track number of track_ref to song_num
+		-- set track number of track_ref to song_num
 	end tell
 	
 	log "imported:" & song_name & ", with track id: " & song_num
