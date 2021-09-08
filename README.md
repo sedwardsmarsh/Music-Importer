@@ -6,7 +6,10 @@ I made this script so I could import songs in their album-order. By default, Mus
 
 ## Instruction
 
-The script requires the following:
-* **Only include audio files**
-* All song files you want to import are in the directory you point the script to
-  * Don't include sperate folders containing song files
+The script requires file names to be in **exactly** the following format:
+* `track_number_in_album- album_title - track_title`
+
+Additionally: 
+* **Only include audio files** in the album directory
+* All song files you want to import are in the root directory you point the script to
+  * Don't include nested folders containing song files
