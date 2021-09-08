@@ -13,3 +13,9 @@ Additionally:
 * **Only include audio files** in the album directory
 * All song files you want to import are in the root directory you point the script to
   * Don't include nested folders containing song files
+
+## TODO
+
+* Remove duplicates from album, perhaps by performing a second pass
+* Add a progress indication of some kind
+* Improve script efficiency, perhaps by tuning `timeout_interval`
