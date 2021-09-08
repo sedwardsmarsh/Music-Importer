@@ -17,7 +17,7 @@ set number_of_songs to count list_of_song_files
 log "number of songs: " & number_of_songs
 set incrementor to 1 as integer
 local timeout_interval
-set timeout_interval to 1
+set timeout_interval to 0.1
 repeat with song_file in list_of_song_files
 	
 	-- parse the integer prefix from the filename and song name
@@ -62,7 +62,7 @@ repeat with song_file in list_of_song_files
 				set track number of track_ref to song_num
 				
 				-- decrement TIMEOUT_INTERVAL on success
-				set timeout_interval to timeout_interval - 0.25
+				set timeout_interval to timeout_interval - 0.1
 				if timeout_interval < 0 then
 					set timeout_interval to 0
 				end if
@@ -72,7 +72,7 @@ repeat with song_file in list_of_song_files
 			on error errStr number errorNumber
 				-- Music.app will report a file permissions error (number 54), what does this mean?
 				-- for the time being, increase the TIMEOUT_INTERVAL by a quarter second
-				set timeout_interval to timeout_interval + 0.25
+				set timeout_interval to timeout_interval + 0.1
 				log "track: " & song_name & " failure, timeout_interval: " & timeout_interval
 				
 			end try
