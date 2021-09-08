@@ -12,18 +12,25 @@ set list_of_song_files to list folder album_directory
 log "album directory: " & album_directory
 log "list of song files: " & list_of_song_files
 
--- loop through all songs in ALBUM_DIRECTORY, initialize loop variables
+-- initialize loop variables
 set number_of_songs to count list_of_song_files
 log "number of songs: " & number_of_songs
 set incrementor to 1 as integer
-local timeout_interval
+global timeout_interval
 set timeout_interval to 0.1
+
+-- initialize progress details
+set progress total steps to number_of_songs
+set progress completed steps to 0
+set progress description to "Importing Songs..."
+set progress additional description to "Preparing to import."
+
+-- loop through all songs in ALBUM_DIRECTORY
 repeat with song_file in list_of_song_files
 	
 	-- parse the integer prefix from the filename and song name
 	set split_song_file to splitText(song_file, "- ")
 	set song_num to (item 1 of split_song_file) as integer
-	-- set song_name to (item 1 of splitText((item 3 of split_song_file), "."))
 	
 	-- setup file_alias
 	set file_path to (album_directory & item incrementor of list_of_song_files) as string
@@ -39,9 +46,12 @@ repeat with song_file in list_of_song_files
 	set album_name to (item 2 of the_meta_data_split)
 	set song_name to (item 4 of the_meta_data_split)
 	
+	-- update the progress details
+	set progress description to "Song name: " & song_name
+	set progress additional description to "Number: (" & incrementor & "/" & number_of_songs & "), Timeout Interval: " & timeout_interval & "s"
+	
 	tell application "Music"
 		
-		-- dynamically throttle TIMEOUT_INTERVAL
 		repeat while true
 			
 			try
@@ -81,10 +91,14 @@ repeat with song_file in list_of_song_files
 		
 	end tell
 	
-	log "track: " & song_name & ", track id: " & song_num & ", timeout interval: " & timeout_interval & " imported ---"
+	-- increment the progress
 	set incrementor to incrementor + 1
+	set progress completed steps to incrementor - 1
 	
 end repeat
+
+-- display notification that the script has finished
+display notification "All songs have been imported." with title "Music Importer" subtitle "Importing is complete." sound name "Frog"
 
 
 -- splits text into a list of tokens separated by theDelimiter

@@ -17,5 +17,5 @@ Additionally:
 ## TODO
 
 * Remove duplicates from album, perhaps by performing a second pass
-* Add a progress indication of some kind
+* ~~Add a progress indication of some kind~~
 * Improve script efficiency, perhaps by tuning `timeout_interval`
